@@ -14,10 +14,17 @@ namespace Mission11_Lewis.API.Controllers
 
         // Request to get all books in the database
         [HttpGet("AllBooks")]
-        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1, string sortOrder = "none") {
+        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1, string sortOrder = "none", [FromQuery] List<string>? categories = null) {
+
+            var query = _bookContext.Books.AsQueryable();
+
+            // Filter based on category
+            if (categories != null && categories.Any())
+            {
+                query = query.Where(c => categories.Contains(c.Category));
+            }
 
             // Configure sorting
-            var query = _bookContext.Books.AsQueryable();
             if (sortOrder == "asc")
             {
                 query = query.OrderBy(b => b.Title);
@@ -34,7 +41,7 @@ namespace Mission11_Lewis.API.Controllers
                 .ToList();
 
             // Get the total number of books
-            var totalBooks = _bookContext.Books.Count();
+            var totalBooks = query.Count();
 
             // Create object to send to the frontend
             var dataObject = new
@@ -44,6 +51,17 @@ namespace Mission11_Lewis.API.Controllers
             };
 
             return Ok(dataObject);
+        }
+
+        [HttpGet("GetCategories")]
+        public IActionResult GetCategories()
+        {
+            var categories = _bookContext.Books
+                .Select(c => c.Category)
+                .Distinct()
+                .ToList();
+
+            return Ok(categories);
         }
     }
 }

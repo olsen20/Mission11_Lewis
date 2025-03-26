@@ -135,3 +135,4 @@ C:\Users\maris\OneDrive\Desktop\School\Winter 2025\IS 413 - Enterprise Applicati
 C:\Users\maris\OneDrive\Desktop\School\Winter 2025\IS 413 - Enterprise Application Development\Code\Mission11\backend\Mission11_Lewis.API\obj\Debug\net8.0\Mission11_Lewis.API.pdb
 C:\Users\maris\OneDrive\Desktop\School\Winter 2025\IS 413 - Enterprise Application Development\Code\Mission11\backend\Mission11_Lewis.API\obj\Debug\net8.0\Mission11_Lewis.API.genruntimeconfig.cache
 C:\Users\maris\OneDrive\Desktop\School\Winter 2025\IS 413 - Enterprise Application Development\Code\Mission11\backend\Mission11_Lewis.API\obj\Debug\net8.0\ref\Mission11_Lewis.API.dll
+C:\Users\maris\OneDrive\Desktop\School\Winter 2025\IS 413 - Enterprise Application Development\Code\Mission11\backend\Mission11_Lewis.API\obj\Debug\net8.0\Mission11_Lewis.API.sourcelink.json
