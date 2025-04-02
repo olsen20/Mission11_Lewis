@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_Lewis.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4f05f71f888c3a115e697eec2c86c4e0b181166")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_Lewis.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_Lewis.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
