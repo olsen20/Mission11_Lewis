@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Book } from "../types/Book";
 import { useNavigate } from "react-router-dom";
+import { fetchBooks } from "../api/BooksAPI";
+import Pagination from "./Pagination";
 
 function BookList({selectedCategories}: {selectedCategories: string[]}) {
 
@@ -10,28 +12,35 @@ function BookList({selectedCategories}: {selectedCategories: string[]}) {
     const [totalItems, setTotalItems] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
     const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none");
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     // Pull books from the API
     useEffect(() => {
-        const fetchBooks = async () => {
-            const categoryParams = selectedCategories
-                .map((cat) => `categories=${encodeURIComponent(cat)}`)
-                .join('&');
-
-            const response = await fetch(`https://localhost:5000/api/Books/AllBooks?pageSize=${pageSize}&pageNum=${pageNum}&sortOrder=${sortOrder}${selectedCategories.length ? `&${categoryParams}` : ''}`);
-            const data = await response.json();
-            setBooks(data.books);
-            setTotalItems(data.totalNumBooks);
+        const loadBooks = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchBooks(pageSize, pageNum, sortOrder, selectedCategories);
+                setBooks(data.books);
+                setTotalItems(data.totalNumBooks);
+            } catch (error) {
+                setError((error as Error).message);
+            } finally {
+                setLoading(false);
+            }
         };
     
-    fetchBooks();
+        loadBooks();
     }, [pageSize, pageNum, sortOrder, selectedCategories]);
 
     // Update totalPages after totalItems is loaded
     useEffect(() => {
         setTotalPages(Math.ceil(totalItems / pageSize));
     }, [totalItems, pageSize, selectedCategories]);
+
+    if (loading) return <p>Loading books...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <>
@@ -80,49 +89,17 @@ function BookList({selectedCategories}: {selectedCategories: string[]}) {
                 </div>
             ))}
 
-            {/* Button to move to previous page */}
-            <br />
-            <button disabled={pageNum === 1} onClick={() => setPageNum(pageNum - 1)}>
-                Previous
-            </button>
-
-            {/* Buttons to select page */}
-            {[...Array(totalPages)].map((_, i) => (
-                <button
-                    key={i + 1}
-                    onClick={() => setPageNum(i + 1)}
-                    disabled={pageNum === i + 1}
-                >
-                    {i + 1}
-                </button>
-            ))}
-
-            {/* Button to move to next page */}
-            <button
-                disabled={pageNum === totalPages}
-                onClick={() => setPageNum(pageNum + 1)}
-            >
-                Next
-            </button>
-
-            {/* Button to determine how many results to display */}
-            <br /><br />
-            <label>
-                Results per page:
-                <select
-                    value={pageSize}
-                    onChange={(p) => {
-                        setPageSize(Number(p.target.value));
-                        setPageNum(1);
-                    }}
-                >
-                    <option value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                </select>
-            </label>
-
-
+            {/* Page selection and navigation */}
+            <Pagination 
+                currentPage={pageNum}
+                totalPages={totalPages}
+                pageSize={pageSize}
+                onPageChange={setPageNum}
+                onPageSizeChange={(newSize) => {
+                    setPageSize(newSize);
+                    setPageNum(1);
+                }}
+            />
         </>
     )
 }
