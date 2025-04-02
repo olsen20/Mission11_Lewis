@@ -18,7 +18,7 @@ export const fetchBooks = async (
 
         // Configure the parameters
         const categoryParams = selectedCategories
-            .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
+            .map((cat) => `categories=${encodeURIComponent(cat)}`)
             .join('&');
 
         // Retrieve books from the API
