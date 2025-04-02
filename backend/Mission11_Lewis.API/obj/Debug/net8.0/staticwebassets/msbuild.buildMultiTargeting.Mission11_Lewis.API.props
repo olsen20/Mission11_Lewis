@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Mission11_Lewis.API.props" />
-</Project>

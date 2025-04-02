@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Mission11_Lewis.API.props" />
-</Project>
