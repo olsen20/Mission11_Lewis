@@ -15,8 +15,7 @@ builder.Services.AddDbContext<BookDbContext>(options =>
 builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
     policy => {
-        policy
-        .AllowAnyOrigin()
+        policy.WithOrigins("https://red-hill-07278b21e.6.azurestaticapps.net")
         .AllowAnyMethod()
         .AllowAnyHeader();
     }));
